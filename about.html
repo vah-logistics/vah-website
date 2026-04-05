@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | VAH</title>
     
-    <!-- Typography: Marcellus for Headings, DM Sans for Body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -123,7 +122,7 @@
         .timeline__item { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: center; margin-bottom: 3rem; position: relative; }
         .timeline__item:last-child { margin-bottom: 0; }
         
-        .timeline__content { padding: 2rem; border-radius: 8px; background: var(--white); box-shadow: 0 4px 20px rgba(7,1,75,0.04); border: 1px solid rgba(7,1,75,0.05); display: flex; flex-direction: column; justify-content: center; transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s; }
+        .timeline__content { padding: 2rem; border-radius: 8px; background: var(--white); box-shadow: 0 4px 20px rgba(7,1,75,0.04); border: 1px solid rgba(7,1,75,0.05); display: flex; flex-direction: column; justify-content: center; height: 240px; transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s; }
         .timeline__content:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(7,1,75,0.08); }
         .timeline__item:nth-child(odd) .timeline__content { grid-column: 1; text-align: right; }
         .timeline__item:nth-child(even) .timeline__content { grid-column: 3; }
@@ -163,7 +162,6 @@
         
         .programs__list { display: flex; flex-direction: column; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
         .prog-row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2rem; padding: 2rem 2.5rem; background: var(--white); border-radius: 8px; border: 1px solid rgba(7,1,75,0.05); transition: all 0.4s var(--ease-out-expo); }
-        /* Removed translateX to keep layout centered and clean */
         .prog-row:hover { background: var(--orange); border-color: var(--orange); box-shadow: 0 10px 30px rgba(255,132,0,0.2); }
         
         .prog-row:hover h3 { color: var(--navy); }
@@ -181,13 +179,14 @@
         .partner__content { max-width: 500px; }
         .partner__text { font-size: 1.05rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 2rem; }
         .partner__text strong { color: var(--navy); font-weight: 600; }
+        .partner__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
         
         .partner__visual { display: flex; justify-content: center; }
         .partner__card { width: 100%; max-width: 420px; padding: clamp(2.25rem, 3.5vw, 3rem); border-radius: 8px; background: var(--bg-light); border: 1px solid rgba(7,1,75,0.08); box-shadow: 0 10px 30px rgba(7,1,75,0.05); text-align: center; transition: all 0.5s var(--ease-out-expo); position: relative; }
         .partner__card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(7,1,75,0.08); border-color: rgba(246,197,59,0.5); }
         
         .partner__card-logo { display: flex; align-items: center; justify-content: center; margin-bottom: 1.75rem; }
-        .partner__card-logo svg { width: 200px; }
+        .partner__card-logo img { width: 100%; max-width: 280px; height: auto; }
 
         /* ============= FOOTER ============= */
         .footer { padding: 5rem 0 2rem; background: var(--navy); color: var(--white); }
@@ -213,10 +212,39 @@
         
         .footer__bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
 
+        /* ============= DONATE MODAL ============= */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(7, 1, 75, 0.85); backdrop-filter: blur(8px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-out-expo);
+        }
+        .modal-overlay.is-active { opacity: 1; pointer-events: all; }
+        
+        .modal-content {
+            background: var(--white); padding: 3.5rem 2.5rem; border-radius: 12px;
+            max-width: 500px; width: 90%; position: relative;
+            transform: translateY(30px) scale(0.95); transition: transform 0.4s var(--ease-out-expo);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2); border: 1px solid rgba(7,1,75,0.05);
+        }
+        .modal-overlay.is-active .modal-content { transform: translateY(0) scale(1); }
+        
+        .modal-close {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; transition: color 0.3s; padding: 0.5rem;
+        }
+        .modal-close:hover { color: var(--orange); }
+        .modal-close svg { width: 24px; height: 24px; }
+        
+        .modal-options { display: flex; flex-direction: column; gap: 1rem; }
+        .modal-btn { width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem; text-align: center; }
+
         /* ============= RESPONSIVE QUERIES ============= */
         @media (max-width: 1024px) {
             .partner__grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
             .partner__content { max-width: 100%; }
+            .partner__actions { justify-content: center; }
             .footer__grid { grid-template-columns: 1fr; gap: 3rem; }
         }
 
@@ -244,11 +272,14 @@
             .timeline__content {
                 grid-column: 2 !important;
                 text-align: left !important;
+                height: auto;
+                min-height: 180px;
+                padding: 1.5rem;
             }
             .timeline__node {
                 left: 24px;
                 top: 50%;
-                transform: translate(-50%, -50%);
+                transform: translateY(-50%, -50%);
             }            
             
             .prog-row { grid-template-columns: 1fr; text-align: center; padding: 2rem; }
@@ -260,7 +291,6 @@
 </head>
 <body>
 
-    <!-- ============= NAVIGATION ============= -->
     <nav class="nav" id="nav">
         <div class="container" style="padding-top: 0; padding-bottom: 0;">
             <div class="nav__inner">
@@ -285,7 +315,6 @@
         </div>
     </nav>
 
-    <!-- ============= MISSION & VISION ============= -->
     <section class="mission-vision">
         <div class="container container--narrow">
             
@@ -319,7 +348,6 @@
         </div>
     </section>
 
-    <!-- ============= ORIGIN STORY & MILESTONES ============= -->
     <section class="story">
         <div class="container">
             <div class="story__header">
@@ -363,7 +391,6 @@
         </div>
     </section>
 
-    <!-- ============= CORE VALUES ============= -->
     <section class="values">
         <div class="container">
             <div class="values__header">
@@ -443,7 +470,6 @@
         </div>
     </section>
 
-    <!-- ============= WHAT VAH DOES ============= -->
     <section class="programs">
         <div class="container">
             <div class="programs__header">
@@ -498,7 +524,6 @@
         </div>
     </section>
 
-    <!-- ============= CHARITABLE WORK ============= -->
     <section class="partner" id="charity">
         <div class="container">
             <div class="partner__grid">
@@ -511,22 +536,20 @@
                     <p class="partner__text">
                         Virtual Arts for Humanity partners with organizations such as <strong>Feeding America</strong> to turn artistic performances into meaningful impact. Donations raised through events contribute directly to humanitarian causes including hunger relief.
                     </p>
-                    <a href="#donate" class="btn btn--yellow">Support The Cause</a>
+                    <div class="partner__actions">
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=MYWFBEXK72GL6&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-BwZleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--orange">Donate via PayPal</a>
+                        <a href="https://account.venmo.com/u/donatevah?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-ByBleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--yellow">Donate via Venmo</a>
+                    </div>
                 </div>
                 <div class="partner__visual reveal-right">
                     <div class="partner__card">
                         <div class="partner__card-logo">
-                            <!-- Feeding America Graphic Representation -->
-                            <svg viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="8" width="44" height="44" rx="8" fill="#ff8400" opacity="0.1"/>
-                                <g transform="translate(10, 16)" fill="#ff8400">
-                                    <circle cx="12" cy="8" r="3"/>
-                                    <path d="M4 28c0-6 4-11 8-13 4 2 8 7 8 13H4z" opacity="0.7"/>
-                                    <path d="M0 28h24v2H0z"/>
-                                </g>
-                                <text x="56" y="28" font-family="'Marcellus', serif" font-size="18" font-weight="600" fill="#07014B">Feeding</text>
-                                <text x="56" y="48" font-family="'Marcellus', serif" font-size="18" font-weight="600" fill="#ff8400">America</text>
-                            </svg>
+                            <img 
+                                src="https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png" 
+                                srcset="https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png 1x, https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png 2x" 
+                                alt="Feeding America Logo"
+                                style="width: 100%; max-width: 280px; height: auto;"
+                            >
                         </div>
                         <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic;">
                             Working together to provide meals to those who need them most through the power of a live show.
@@ -537,7 +560,6 @@
         </div>
     </section>
 
-    <!-- ============= FOOTER ============= -->
     <footer class="footer">
         <div class="container">
             <div class="footer__grid">
@@ -579,7 +601,31 @@
         </div>
     </footer>
 
-    <!-- ============= JAVASCRIPT ============= -->
+    <div class="modal-overlay" id="donateModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div class="section-label" style="justify-content: center; width: 100%;">
+                <svg class="section-label__icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                Support VAH
+            </div>
+            
+            <h2 class="elegant-title" style="text-align: center; margin-bottom: 1rem; font-size: clamp(1.5rem, 3vw, 2rem);">Make an Impact</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Choose your preferred platform to donate. Every contribution powers a performance and provides meals to families in need.</p>
+            
+            <div class="modal-options">
+                <a href="https://www.paypal.com/donate/?hosted_button_id=MYWFBEXK72GL6&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-BwZleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--orange modal-btn">
+                    Donate via PayPal (Preferred)
+                </a>
+                <a href="https://account.venmo.com/u/donatevah?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-ByBleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--yellow modal-btn">
+                    Donate via Venmo
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
@@ -615,6 +661,36 @@
                         toggle.children[0].style.transform = ''; 
                         toggle.children[1].style.opacity = ''; 
                         toggle.children[2].style.transform = '';
+                    }
+                });
+            }
+
+            // Donate Modal Logic
+            const donateBtns = document.querySelectorAll('a[href="#donate"]');
+            const modal = document.getElementById('donateModal');
+            const closeModal = document.getElementById('closeModal');
+
+            if (modal) {
+                donateBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault(); 
+                        modal.classList.add('is-active');
+                    });
+                });
+
+                closeModal.addEventListener('click', () => {
+                    modal.classList.remove('is-active');
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('is-active');
+                    }
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+                        modal.classList.remove('is-active');
                     }
                 });
             }
