@@ -130,13 +130,73 @@
         .timeline__node { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; }
         .timeline__dot { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--bg-alt); background: var(--navy); box-shadow: 0 0 0 3px rgba(7,1,75,0.1); }
         
+        .timeline__year { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.65rem; }
         .timeline__heading { font-family: var(--font-heading); font-size: 1.4rem; color: var(--navy); margin-bottom: 0.5rem; }
         .timeline__desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+
+        @media (min-width: 1100px) {
+            .timeline {
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 1.2rem;
+                max-width: 1600px;
+            }
+
+            .timeline__thread {
+                left: 8%;
+                right: 8%;
+                top: 8px;
+                bottom: auto;
+                width: auto;
+                height: 2px;
+                transform: none;
+                background: linear-gradient(to right, transparent 0%, var(--yellow) 15%, var(--orange) 50%, var(--yellow) 85%, transparent 100%);
+            }
+
+            .timeline__item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 0;
+                grid-template-columns: none;
+                height: 100%;
+            }
+
+            .timeline__item:nth-child(odd) .timeline__content,
+            .timeline__item:nth-child(even) .timeline__content {
+                grid-column: auto;
+                text-align: center;
+            }
+
+            .timeline__node {
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+                order: -1;
+                margin-bottom: 1.25rem;
+                z-index: 2;
+            }
+
+            .timeline__content {
+                width: 100%;
+                height: 390px;
+                justify-content: flex-start;
+                padding: 1.4rem;
+            }
+        }
 
         /* ============= CORE VALUES ============= */
         .values { padding: 6rem 0; background: var(--white); }
         .values__header { text-align: center; margin-bottom: 4rem; }
         .values__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+
+        @media (min-width: 1100px) {
+            .values__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+            .values__grid .val-card { grid-column: span 2; }
+            .values__grid .val-card:nth-child(4) { grid-column: 2 / span 2; }
+            .values__grid .val-card:nth-child(5) { grid-column: 4 / span 2; }
+        }
 
         .val-card { position: relative; padding: 2.5rem; border-radius: 8px; background: var(--bg-light); text-align: center; overflow: hidden; transition: all 0.5s var(--ease-out-expo); }
         .val-card::before { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(7,1,75,0.08); border-radius: 4px; pointer-events: none; transition: border-color 0.4s ease; }
@@ -248,21 +308,15 @@
             .footer__grid { grid-template-columns: 1fr; gap: 3rem; }
         }
 
-        @media (max-width: 768px) {
-            .nav__right { 
-                display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-                background: rgba(7,1,75,0.98); flex-direction: column; align-items: center; justify-content: center;
-                gap: 2.5rem; z-index: 999; backdrop-filter: blur(15px);
-                opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        @media (min-width: 696px) and (max-width: 1099px) {
+            .values__grid .val-card:last-child:nth-child(odd) {
+                grid-column: 1 / -1;
+                justify-self: center;
+                width: min(420px, 100%);
             }
-            .nav.is-open .nav__right { opacity: 1; pointer-events: all; }
-            .nav__right .nav__links { flex-direction: column; gap: 2rem; }
-            .nav__right .nav__link { font-size: 1.5rem; color: var(--white); }
-            .nav__right .nav__link::after { background: var(--orange); }
-            
-            .nav__toggle { display: flex; }
-            
-            /* Responsive Timeline */
+        }
+
+        @media (max-width: 1099px) {
             .timeline__thread { left: 24px; }
             .timeline__item,
             .timeline__item:nth-child(odd) {
@@ -280,7 +334,22 @@
                 left: 24px;
                 top: 50%;
                 transform: translateY(-50%, -50%);
-            }            
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav__right { 
+                display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                background: rgba(7,1,75,0.98); flex-direction: column; align-items: center; justify-content: center;
+                gap: 2.5rem; z-index: 999; backdrop-filter: blur(15px);
+                opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            }
+            .nav.is-open .nav__right { opacity: 1; pointer-events: all; }
+            .nav__right .nav__links { flex-direction: column; gap: 2rem; }
+            .nav__right .nav__link { font-size: 1.5rem; color: var(--white); }
+            .nav__right .nav__link::after { background: var(--orange); }
+            
+            .nav__toggle { display: flex; }
             
             .prog-row { grid-template-columns: 1fr; text-align: center; padding: 2rem; }
             .prog-icon-box { margin: 0 auto; }
@@ -366,24 +435,45 @@
 
                 <div class="timeline__item reveal">
                     <div class="timeline__content">
-                        <h3 class="timeline__heading">First Festival of the Arts</h3>
-                        <p class="timeline__desc">Establishing our flagship event that brought artists together across multiple disciplines to raise funds for hunger relief.</p>
+                        <p class="timeline__year">2020</p>
+                        <h3 class="timeline__heading">Born from the Pandemic</h3>
+                        <p class="timeline__desc">Following a lost summer internship, Founder Varsha Vasu established VAH to unite philanthropy with the arts.</p>
                     </div>
                     <div class="timeline__node"><div class="timeline__dot"></div></div>
                 </div>
 
                 <div class="timeline__item reveal d1">
                     <div class="timeline__content">
-                        <h3 class="timeline__heading">Major Fundraising Campaigns</h3>
-                        <p class="timeline__desc">Scaling our operations to convert performances into significant impact, reaching tens of thousands of meals donated.</p>
+                        <p class="timeline__year">2021</p>
+                        <h3 class="timeline__heading">Scaling the Vision</h3>
+                        <p class="timeline__desc">We hosted our grand first-ever "Festival of Arts," featuring 38 artists performing 16 different styles over 8 days.</p>
                     </div>
                     <div class="timeline__node"><div class="timeline__dot" style="background: var(--orange); box-shadow: 0 0 0 3px rgba(7,1,75,0.1);"></div></div>
                 </div>
 
                 <div class="timeline__item reveal d2">
                     <div class="timeline__content">
-                        <h3 class="timeline__heading">Expansion of Workshops</h3>
-                        <p class="timeline__desc">Launching dedicated mentorship and career development programs to build a sustainable pipeline of young creative leaders.</p>
+                        <p class="timeline__year">2022</p>
+                        <h3 class="timeline__heading">Moving In-Person</h3>
+                        <p class="timeline__desc">VAH reversed the traditional nonprofit roles by hosting the first-of-its-kind, entirely youth-led Performing Arts Charity Gala.</p>
+                    </div>
+                    <div class="timeline__node"><div class="timeline__dot"></div></div>
+                </div>
+
+                <div class="timeline__item reveal d1">
+                    <div class="timeline__content">
+                        <p class="timeline__year">2023-2024</p>
+                        <h3 class="timeline__heading">Coast-to-Coast Impact</h3>
+                        <p class="timeline__desc">With the success of "VAHni 2023," we solidified our presence across 50+ cities and 3 continents.</p>
+                    </div>
+                    <div class="timeline__node"><div class="timeline__dot" style="background: var(--orange); box-shadow: 0 0 0 3px rgba(7,1,75,0.1);"></div></div>
+                </div>
+
+                <div class="timeline__item reveal d2">
+                    <div class="timeline__content">
+                        <p class="timeline__year">2025 &amp; Beyond</p>
+                        <h3 class="timeline__heading">The Next Chapter</h3>
+                        <p class="timeline__desc">Launching the "VAHsgiving" Musical Food Drive, we fed 400 unhoused individuals in a single event.</p>
                     </div>
                     <div class="timeline__node"><div class="timeline__dot"></div></div>
                 </div>
