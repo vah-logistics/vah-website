@@ -1,0 +1,330 @@
+/* ============================================================
+   VAH GLOBAL STYLESHEET  —  vah-global.css
+   Link on EVERY page, after Google Fonts, before page CSS.
+   ============================================================ */
+
+/* ─── RESET ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── DESIGN TOKENS ───────────────────────────────────────── */
+:root {
+  /* Brand colours */
+  --primary-color:           #09004F;
+  --accent-color:            #f4a261;
+  --text-light:              #FFEBBD;
+  --text-dark:               #09004F;
+  --card-bg:                 rgba(255,255,255,0.04);
+  --border-color:            rgba(255,255,255,0.09);
+
+  /* Navbar */
+  --navbar-height:           80px;
+  --navbar-height-scrolled:  60px;
+
+  /* Spacing */
+  --padding-large:           20px 32px;
+  --padding-small:           10px 32px;
+  --section-padding:         64px 48px;
+
+  /* Motion */
+  --transition-speed:        0.4s;
+
+  /* Shape */
+  --border-radius-pill:      999px;
+  --border-radius-card:      12px;
+}
+
+/* ─── BASE ────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: var(--text-dark);
+  background: var(--primary-color);
+  overflow-x: hidden;
+  /*
+    padding-top = navbar height so the first section is never
+    hidden behind the fixed bar on non-hero pages.
+    On index.html the .hero has its own margin-top that overrides
+    this for the full-bleed effect.
+  */
+  padding-top: var(--navbar-height);
+}
+
+h1, h2, h3 {
+  font-family: "GFS Didot", serif;
+  font-weight: 400;
+}
+h1 { font-size: clamp(2.5rem, 7vw, 6rem); line-height: 1.1; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+h3 { font-size: clamp(1.1rem, 2vw, 1.5rem); }
+
+a { text-decoration: none; transition: color var(--transition-speed); }
+
+/* ─── NAVBAR ──────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-color);
+  padding: var(--padding-large);
+  font-family: "Roboto", sans-serif;
+  color: var(--text-light);
+  transition: height var(--transition-speed) ease,
+              padding var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.navbar.scrolled {
+  height: var(--navbar-height-scrolled);
+  padding: var(--padding-small);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+.navbar .logo {
+  height: 52px; width: auto;
+  transition: height var(--transition-speed);
+}
+.navbar.scrolled .logo { height: 36px; }
+
+.nav-links {
+  display: flex; gap: 28px; align-items: center;
+}
+.nav-links a {
+  color: var(--text-light); font-size: 0.9rem;
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--accent-color); }
+
+/* ─── BUTTONS ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-pill);
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  padding: 10px 28px;
+  transition: background var(--transition-speed),
+              color var(--transition-speed),
+              transform var(--transition-speed),
+              box-shadow var(--transition-speed);
+}
+/* Light fill — hero / dark backgrounds */
+.btn-primary {
+  background: var(--text-light); color: var(--primary-color); font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--accent-color); color: var(--primary-color); transform: scale(1.04);
+}
+/* Navy fill — CTA / orange backgrounds */
+.btn-secondary {
+  background: var(--primary-color); color: var(--text-light);
+  min-width: 180px; box-shadow: 0 0 8px rgba(0,0,0,0.35);
+}
+.btn-secondary:hover {
+  background: var(--text-light); color: var(--primary-color); transform: scale(1.04);
+}
+/* Transparent outline — navbar & footer on dark backgrounds */
+.btn-outline {
+  background: transparent; color: var(--text-light);
+  border: 2px solid var(--text-light);
+}
+.btn-outline:hover { background: var(--text-light); color: var(--primary-color); }
+/* Orange fill */
+.btn-accent {
+  background: var(--accent-color); color: var(--primary-color); font-weight: 600;
+}
+.btn-accent:hover { background: var(--text-light); color: var(--primary-color); transform: scale(1.04); }
+/* Small pill — event cards */
+.btn-pill-sm {
+  padding: 5px 16px; font-size: 0.75rem;
+  border-radius: var(--border-radius-pill);
+  border: none; cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: background var(--transition-speed), color var(--transition-speed);
+}
+
+/* ─── EVENT CARD  (shared — used on index + events page) ──── */
+/*
+  Shared card shell. Page-specific layout (grid vs split) is
+  handled in style.css / events.css respectively.
+*/
+.event-card {
+  background: #0d0a3a;
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+.event-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-color);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.event-card-image {
+  width: 100%; height: 140px; position: relative;
+  background: linear-gradient(135deg, #2d1b69 0%, #6b3fa0 50%, #1a0a4f 100%);
+  overflow: hidden;
+}
+.event-card-image img { width: 100%; height: 100%; object-fit: cover; }
+.event-date-chip {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(0,0,0,0.55); border-radius: 6px;
+  padding: 4px 8px; text-align: center; line-height: 1.1;
+}
+.event-date-chip .day {
+  display: block; font-size: 1rem; font-weight: 700; color: var(--text-light);
+}
+.event-date-chip .month {
+  display: block; font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: rgba(255,235,189,0.7);
+}
+.event-badge {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 10px;
+  border-radius: var(--border-radius-pill);
+}
+.event-badge.upcoming {
+  background: rgba(244,162,97,0.2); color: var(--accent-color);
+  border: 1px solid rgba(244,162,97,0.4);
+}
+.event-badge.free {
+  background: rgba(100,220,150,0.15); color: #6ddc9a;
+  border: 1px solid rgba(100,220,150,0.3);
+}
+.event-badge.sold-out {
+  background: rgba(255,80,80,0.12); color: #ff9090;
+  border: 1px solid rgba(255,80,80,0.3);
+}
+.event-card-body {
+  padding: 16px; display: flex; flex-direction: column;
+  gap: 8px; flex: 1;
+}
+.event-category {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent-color);
+}
+.event-title {
+  font-family: "GFS Didot", serif; font-size: 1.05rem;
+  color: var(--text-light); font-weight: 400;
+}
+.event-meta { display: flex; flex-direction: column; gap: 3px; }
+.event-meta span {
+  font-size: 0.75rem; color: rgba(255,235,189,0.55);
+  display: flex; align-items: center; gap: 6px;
+}
+.event-card-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.event-price { font-size: 0.85rem; font-weight: 600; color: var(--text-light); }
+.btn-ticket {
+  background: var(--accent-color); color: var(--primary-color); font-weight: 700;
+}
+.btn-ticket:hover { background: var(--text-light); color: var(--primary-color); }
+.btn-rsvp {
+  background: transparent; color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+}
+.btn-rsvp:hover { background: var(--accent-color); color: var(--primary-color); }
+
+/* ─── TICKET MODAL ────────────────────────────────────────── */
+/*
+  Universal modal overlay used on any page that has event cards.
+  Triggered by JS in components.js — openModal(eventData).
+  Close by clicking the backdrop or the × button.
+*/
+.modal-overlay {
+  display: none;           /* JS sets display:flex to open */
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  background: #0d0a3a;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 100%; max-width: 520px;
+  padding: 36px;
+  position: relative;
+  display: flex; flex-direction: column; gap: 20px;
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: transparent; border: none;
+  color: rgba(255,235,189,0.5); font-size: 1.4rem;
+  cursor: pointer; line-height: 1;
+  transition: color var(--transition-speed);
+}
+.modal-close:hover { color: var(--text-light); }
+
+.modal-badge {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent-color);
+}
+.modal-title {
+  font-family: "GFS Didot", serif; font-size: 1.6rem;
+  color: var(--text-light); font-weight: 400; line-height: 1.2;
+}
+.modal-meta { display: flex; flex-direction: column; gap: 6px; }
+.modal-meta span {
+  font-size: 0.82rem; color: rgba(255,235,189,0.6);
+  display: flex; align-items: center; gap: 8px;
+}
+.modal-divider {
+  border: none; border-top: 1px solid var(--border-color); margin: 4px 0;
+}
+.modal-price-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-price-label { font-size: 0.8rem; color: rgba(255,235,189,0.5); }
+.modal-price-value { font-size: 1.2rem; font-weight: 700; color: var(--text-light); }
+
+.modal-actions { display: flex; flex-direction: column; gap: 10px; }
+
+/* ─── FOOTER ──────────────────────────────────────────────── */
+.footer {
+  background: var(--primary-color); color: var(--text-light);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 32px; padding: var(--section-padding);
+}
+.footer-left  { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.footer-center { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.footer-center img { height: 72px; width: auto; opacity: 0.9; }
+.footer-social { display: flex; gap: 16px; }
+.footer-social a {
+  color: var(--text-light); font-size: 1.2rem; opacity: 0.75;
+  transition: opacity var(--transition-speed), color var(--transition-speed);
+}
+.footer-social a:hover { opacity: 1; color: var(--accent-color); }
+.footer-center .copyright { font-size: 0.72rem; opacity: 0.5; }
+.footer-right { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.footer a { color: var(--text-light); font-size: 0.9rem; }
+.footer a:hover { color: var(--accent-color); }
+
+/* ─── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) { .nav-links { gap: 14px; font-size: 0.85rem; } }
+@media (max-width: 640px) {
+  .footer {
+    flex-direction: column; align-items: center;
+    text-align: center; padding: 40px 24px;
+  }
+  .footer-left, .footer-right { align-items: center; }
+}
