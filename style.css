@@ -1,0 +1,230 @@
+/* ============================================================
+   INDEX PAGE STYLES  —  style.css
+   Loaded after vah-global.css. Only index-specific rules here.
+   ============================================================ */
+
+/* ─── HERO: RECORD PLAYER ────────────────────────────────── */
+/*
+  Replaces the full-bleed photo hero with a three-column layout:
+  wordmark LEFT | GIF CENTRE | tagline RIGHT
+  Matches the Figma Wireframe 4 composition exactly.
+
+  No margin-top needed here because body { padding-top: --navbar-height }
+  in vah-global.css already offsets all content below the fixed navbar.
+*/
+.hero-record {
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 64px 80px;
+  min-height: 60vh;
+}
+
+/* Left: big "VAH" wordmark */
+.hero-left { flex: 1; }
+
+.brand-vah {
+  font-family: "GFS Didot", serif;
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 400;
+  color: var(--text-light);
+  line-height: 0.9;
+}
+
+.brand-sub {
+  font-family: "GFS Didot", serif;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--text-light);
+  line-height: 1.4;
+  margin-top: 12px;
+}
+
+/* Centre: GIF */
+.hero-center { flex: 1; display: flex; justify-content: center; }
+
+.record-gif {
+  /*
+    Size the GIF so it fills the centre column without overflowing.
+    Adjust max-width to taste once you have the actual asset.
+  */
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  display: block;
+}
+
+/* Right: tagline */
+.hero-right { flex: 1; text-align: right; }
+
+.hero-tagline {
+  font-family: "GFS Didot", serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ─── ABOUT STRIP ────────────────────────────────────────── */
+.about {
+  background: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 40px 32px;
+}
+.about img { height: 80px; width: auto; margin-bottom: 12px; }
+.pronounce {
+  font-style: italic; font-size: 1.1rem; margin-bottom: 14px;
+  color: rgba(255,235,189,0.85);
+}
+.description {
+  font-size: 0.95rem; line-height: 1.7; max-width: 540px;
+  margin: 0 auto; color: rgba(255,235,189,0.8);
+}
+
+/* ─── EVENTS SECTION ─────────────────────────────────────── */
+.events-section {
+  background: var(--primary-color);
+  padding: 48px;
+}
+.events-section .section-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,235,189,0.5);
+  margin-bottom: 24px;
+}
+
+/*
+  FEATURED SPLIT LAYOUT  (1-event state from Wireframe 4)
+  Card on the left (~40%), description text on the right (~60%).
+  This mirrors the wireframe screenshot exactly.
+*/
+.events-featured-split {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* The card in this layout is slightly taller than grid cards */
+.events-featured-card .event-card-image { height: 200px !important; }
+
+.events-featured-info {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.events-featured-title {
+  font-family: "GFS Didot", serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-style: italic;
+  color: var(--text-light);
+  font-weight: 400;
+}
+.events-featured-desc {
+  font-size: 0.95rem; line-height: 1.75;
+  color: rgba(255,235,189,0.75);
+  max-width: 480px;
+}
+
+/*
+  GRID LAYOUT  (2–4 events state)
+  Used when you switch to the dynamic version in events-data.js.
+  Uncomment and use class="events-grid" on the wrapper.
+*/
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/*
+  5+ EVENTS: featured left, mini-grid right.
+  Wrapper uses class="events-5plus".
+*/
+.events-5plus {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.events-5plus .events-featured-card {
+  grid-row: span 2; /* tall card on the left */
+}
+.events-5plus .events-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* ─── CTA SECTION ────────────────────────────────────────── */
+/*
+  Split into two columns (Donate | Apply) separated by a divider,
+  matching Wireframe 4 which shows distinct labelled button groups.
+*/
+.cta {
+  background: var(--accent-color);
+  text-align: center;
+  padding: 64px 48px;
+}
+.cta h2 {
+  font-family: "GFS Didot", serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+.cta > p {
+  font-size: 0.95rem; color: var(--primary-color);
+  margin-bottom: 40px;
+  max-width: 520px; margin-left: auto; margin-right: auto;
+  line-height: 1.6;
+}
+
+.cta-columns {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.cta-col {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.cta-col-heading {
+  font-family: "GFS Didot", serif;
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+/* Vertical divider between columns */
+.cta-divider {
+  width: 1px;
+  background: rgba(9,0,79,0.25);
+  align-self: stretch;
+  margin: 0 40px;
+}
+
+/* Override btn-secondary min-width inside CTA so buttons size to content */
+.cta .btn-secondary { min-width: 160px; font-style: italic; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-record { flex-direction: column; padding: 48px 32px; text-align: center; }
+  .hero-right  { text-align: center; }
+  .events-featured-split { grid-template-columns: 1fr; }
+  .events-featured-title { font-size: 2.5rem; }
+  .events-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-columns { flex-direction: column; align-items: center; }
+  .cta-divider { width: 80%; height: 1px; margin: 16px 0; }
+}
+
+@media (max-width: 580px) {
+  .events-grid { grid-template-columns: 1fr; }
+  .events-section { padding: 32px 24px; }
+  .cta { padding: 48px 24px; }
+}

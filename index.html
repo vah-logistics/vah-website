@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VAH — Virtual Arts for Humanity</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <!-- Global styles (navbar, footer, buttons, modal, tokens) -->
+  <link rel="stylesheet" href="vah-global.css"/>
+  <!-- Index-specific styles -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR injected by components.js ───────────── -->
+  <div id="vah-navbar"></div>
+
+  <!-- ── TICKET MODAL injected by components.js ─────── -->
+  <!--
+    The modal HTML lives in components.js and is injected here.
+    It is invisible (display:none) until openModal() is called.
+  -->
+  <div id="vah-modal"></div>
+
+
+  <!-- ══════════════════════════════════════════════════
+       HERO  — record-player GIF replaces the photo hero
+  ══════════════════════════════════════════════════════ -->
+  <!--
+    Design rationale:
+    The Figma shows a large "VAH  501(c)(3) non profit" title
+    on the left, a spinning record player GIF in the centre,
+    and the tagline on the right — all on the navy background.
+    This removes the full-bleed photo so the brand mark and
+    record animation are the visual anchor instead.
+
+    The GIF auto-plays as soon as it loads (GIFs always do).
+    The <audio> tag is hidden; it auto-plays muted on load so
+    browsers allow it, then un-mutes after the first user
+    interaction (click anywhere). Replace the src with your
+    actual audio file path.
+  -->
+  <section class="hero-record">
+
+    <!-- Left: brand wordmark -->
+    <div class="hero-left">
+      <h1 class="brand-vah">VAH</h1>
+      <p class="brand-sub">501(c)(3)<br>non profit</p>
+    </div>
+
+    <!-- Centre: record player GIF -->
+    <div class="hero-center">
+      <!--
+        Replace assets/record-player.gif with your actual GIF path.
+        GIFs begin playing the moment the browser renders them — no JS needed.
+      -->
+      <img src="assets/record-player.gif"
+           alt="Animated record player"
+           class="record-gif"/>
+    </div>
+
+    <!-- Right: tagline -->
+    <div class="hero-right">
+      <p class="hero-tagline">Ending Hunger,<br>One Performance<br>at a Time.</p>
+    </div>
+
+    <!--
+      THEME SONG
+      autoplay + muted lets the browser allow auto-play.
+      The JS below un-mutes on first user click.
+      Replace "assets/theme.mp3" with your actual audio file.
+    -->
+    <audio id="themeSong" src="assets/theme.mp3" autoplay muted loop></audio>
+
+  </section>
+
+  <script>
+    // Un-mute audio after first interaction (browser autoplay policy)
+    document.addEventListener('click', function unmute() {
+      const audio = document.getElementById('themeSong');
+      if (audio) audio.muted = false;
+      document.removeEventListener('click', unmute);
+    }, { once: true });
+  </script>
+
+
+  <!-- ══════════════════════════════════════════════════
+       ABOUT STRIP
+  ══════════════════════════════════════════════════════ -->
+  <section class="about">
+    <img src="assets/logo.avif" alt="VAH logo"/>
+    <p class="pronounce">pronounced "VAH"</p>
+    <p class="description">
+      a youth led organization that promotes performing artists of various
+      disciplines while raising funds for a charity called
+      <a href="https://www.feedingamerica.org" target="_blank" rel="noopener"
+         style="color:var(--accent-color);">Feeding America</a>.
+    </p>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════
+       EVENTS SECTION
+       Layout: 1 event = featured-only (Figma Wireframe 4)
+                2–4    = grid row (original 3-col layout)
+                5+     = left featured + right mini-grid
+       This is handled statically here with the 1-event layout.
+       See events-data.js for the dynamic version explanation.
+  ══════════════════════════════════════════════════════ -->
+  <section class="events-section">
+    <p class="section-label">All Events</p>
+
+    <!--
+      FEATURED + DESCRIPTION LAYOUT  (1-event state, matches Wireframe 4)
+      Left half  = event card (reuses .event-card from global CSS)
+      Right half = event name + description text
+    -->
+    <div class="events-featured-split">
+
+      <!-- Left: the event card -->
+      <article class="event-card events-featured-card"
+               onclick="openModal({
+                 category:  'Dance',
+                 title:     'Rivah Festival of Arts',
+                 time:      '7:00 PM – 10:00 PM',
+                 venue:     'Jones Hall, Houston TX',
+                 price:     '$25',
+                 ticketUrl: ''
+               })">
+        <div class="event-card-image"
+             style="background: linear-gradient(135deg,#1a0a4f 0%,#4b2090 60%,#0d0030 100%); height:200px;">
+          <!--
+            Replace the gradient with a real poster:
+            <img src="assets/rivah-poster.jpg" alt="Rivah Festival"/>
+          -->
+          <div class="event-date-chip">
+            <span class="day">00</span>
+            <span class="month">MMM</span>
+          </div>
+          <span class="event-badge upcoming">Upcoming</span>
+        </div>
+
+        <div class="event-card-body">
+          <span class="event-category">Dance</span>
+          <h3 class="event-title">Rivah Festival of Arts</h3>
+          <div class="event-meta">
+            <span>&#128337; 7:00 PM – 10:00 PM</span>
+            <span>&#128205; Jones Hall, Houston TX</span>
+          </div>
+        </div>
+
+        <div class="event-card-footer">
+          <span class="event-price">$25</span>
+          <!--
+            onclick calls openModal() from components.js.
+            stopPropagation() prevents the card's own onclick firing twice.
+          -->
+          <button class="btn btn-pill-sm btn-ticket"
+                  onclick="event.stopPropagation(); openModal({
+                    category:  'Dance',
+                    title:     'Rivah Festival of Arts',
+                    time:      '7:00 PM – 10:00 PM',
+                    venue:     'Jones Hall, Houston TX',
+                    price:     '$25',
+                    ticketUrl: ''
+                  })">Tickets</button>
+        </div>
+      </article>
+
+      <!-- Right: event description text -->
+      <div class="events-featured-info">
+        <h2 class="events-featured-title">Rivah</h2>
+        <p class="events-featured-desc">
+          "RiVAH Festival of Arts: VAH's 5th year celebrations! This festival
+          will feature local Houston and US talent across several cultures and
+          artistic disciplines.
+        </p>
+        <p class="events-featured-desc">
+          Please support us! It would mean a lot to all of our volunteers and artists!"
+        </p>
+      </div>
+
+    </div><!-- /events-featured-split -->
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════
+       CTA SECTION  — split into Donate + Apply columns
+       (matches Wireframe 4 which shows two columns with
+        a dividing line and multiple labelled buttons)
+  ══════════════════════════════════════════════════════ -->
+  <section class="cta">
+    <h2>Get involved today!</h2>
+    <p>
+      Join our cause and apply to be featured as one of VAH's artists or support
+      our cause by donating! Your involvement helps us help those we serve.
+    </p>
+
+    <div class="cta-columns">
+
+      <!-- Donate column -->
+      <div class="cta-col">
+        <h3 class="cta-col-heading">Donate:</h3>
+        <!--
+          Donate via PayPal — blank href, fill in your PayPal.me link.
+          e.g. https://paypal.me/YOUR_USERNAME
+        -->
+        <a href="https://paypal.me/YOUR_USERNAME"
+           target="_blank" rel="noopener"
+           class="btn btn-secondary">Donate via PayPal</a>
+        <!--
+          Donate via Zelle — blank href.
+          Fill in: https://enroll.zellepay.com/pay-with-zelle
+          or a page on your site that shows your Zelle QR / handle.
+        -->
+        <a href=""
+           target="_blank" rel="noopener"
+           class="btn btn-secondary">Donate via Zelle</a>
+      </div>
+
+      <div class="cta-divider"></div>
+
+      <!-- Apply column -->
+      <div class="cta-col">
+        <h3 class="cta-col-heading">Apply to:</h3>
+        <!--
+          All three links → Google Form.
+          Replace the href values with your actual form URLs.
+        -->
+        <a href="https://forms.google.com/YOUR_PERFORM_FORM"
+           target="_blank" rel="noopener"
+           class="btn btn-secondary">Perform</a>
+        <a href="https://forms.google.com/YOUR_LEAD_FORM"
+           target="_blank" rel="noopener"
+           class="btn btn-secondary">Lead</a>
+        <a href="https://forms.google.com/YOUR_VOLUNTEER_FORM"
+           target="_blank" rel="noopener"
+           class="btn btn-secondary">Volunteer</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER injected by components.js ───────────── -->
+  <div id="vah-footer"></div>
+
+  <!--
+    SCRIPT ORDER MATTERS:
+    1. components.js  — injects navbar, footer, modal into the DOM
+    2. scroll.js      — queries .navbar (must exist first)
+  -->
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+
+</body>
+</html>
