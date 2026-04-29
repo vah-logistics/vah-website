@@ -1,790 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | VAH</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ============= GLOBAL VARIABLES ============= */
-        :root {
-            /* Brand Colors */
-            --navy: #07014b;
-            --yellow: #f6c53b;
-            --orange: #ff8400;
-            --white: #ffffff;
-            
-            /* Backgrounds & Text */
-            --bg-light: #fdfcf9;
-            --bg-alt: #f5f4ef;
-            --text-dark: #07014b;
-            --text-muted: #4a5568;
-            
-            /* Typography */
-            --font-heading: 'Marcellus', Georgia, serif;
-            --font-body: 'DM Sans', -apple-system, sans-serif;
-            
-            /* Animations */
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | VAH</title>
 
-        /* ============= BASE & RESET ============= */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html, body { 
-            max-width: 100%;
-            overflow-x: hidden;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-        html { 
-            scroll-behavior: smooth; 
-            -webkit-font-smoothing: antialiased; 
-        }
-        
-        body { 
-            font-family: var(--font-body); 
-            color: var(--text-dark); 
-            background: var(--bg-light); 
-            line-height: 1.7; 
-            padding-top: 80px; 
-        }
-        
-        ::selection { background: var(--orange); color: var(--white); }
-        img, svg { display: block; max-width: 100%; }
-        a { color: inherit; text-decoration: none; }
-        
-        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
-        .container--narrow { max-width: 1100px; }
-
-        /* ============= UTILITY CLASSES & ANIMATIONS ============= */
-        .reveal { opacity: 0; transform: translateY(44px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
-        .reveal-left.visible { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
-        .reveal-right.visible { opacity: 1; transform: translateX(0); }
-        
-        .d1 { transition-delay: 0.1s !important; }
-        .d2 { transition-delay: 0.2s !important; }
-        .d3 { transition-delay: 0.3s !important; }
-
-        h2.elegant-title { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; color: var(--navy); line-height: 1.2; letter-spacing: 0.01em; }
-
-        .section-label { display: inline-flex; align-items: center; gap: 0.65rem; font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.75rem; }
-        .section-label__icon { width: 18px; height: 18px; fill: none; stroke: var(--orange); stroke-width: 1.5; }
-
-        .btn { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; padding: 0.85rem 2.1rem; border-radius: 8px; border: none; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.02em; }
-        .btn--orange { background: var(--orange); color: var(--white); box-shadow: 0 4px 15px rgba(255,132,0,0.25); }
-        .btn--orange:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,132,0,0.35); background: #e67700; }
-        .btn--yellow { background: var(--yellow); color: var(--navy); box-shadow: 0 4px 15px rgba(246,197,59,0.25); }
-        .btn--yellow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(246,197,59,0.35); }
-
-        .rangoli-divider { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 2rem auto; width: fit-content; }
-        .rangoli-divider__line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
-        .rangoli-divider__motif { width: 32px; height: 32px; fill: none; stroke: var(--yellow); stroke-width: 1.5; opacity: 0.8; }
-
-        /* ============= NAVIGATION ============= */
-        .nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem 0; background: var(--white); border-bottom: 1px solid rgba(7,1,75,0.05); transition: all 0.4s var(--ease-out-expo); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .nav__inner { display: flex; align-items: center; justify-content: space-between; }
-        .nav__logo { display: flex; align-items: center; gap: 0.65rem; font-family: var(--font-heading); font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.2rem); color: var(--navy); letter-spacing: 0.02em; }
-        .nav__logo-img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
-        
-        .nav__right { display: flex; align-items: center; gap: 2.5rem; }
-        .nav__links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-        .nav__link { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.3s ease; position: relative; }
-        .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--yellow); transition: width 0.4s var(--ease-out-expo); }
-        .nav__link:hover { color: var(--navy); }
-        .nav__link:hover::after, .nav__link--active::after { width: 100%; }
-        .nav__link--active { color: var(--navy); }
-        
-        .nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 1001; position: relative; }
-        .nav__toggle span { width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: all 0.3s ease; }
-        .nav.is-open .nav__toggle span { background: var(--white); }
-
-        /* ============= MISSION & VISION ============= */
-        .mission-vision { padding: 5rem 0 4rem; text-align: center; border-bottom: 1px solid rgba(7,1,75,0.05); }
-        .mv-block { margin-bottom: 5rem; }
-        .mv__quote { font-family: var(--font-heading); font-size: clamp(1.35rem, 2vw, 2rem); font-weight: 400; line-height: 1.4; color: var(--navy); letter-spacing: 0.01em; max-width: 900px; margin-left: auto; margin-right: auto; }
-        .mv__body { font-size: clamp(1rem, 1.4vw, 1.15rem); color: var(--text-muted); max-width: 720px; margin: 2.5rem auto 0; line-height: 1.9; }
-
-        /* ============= ORIGIN STORY ============= */
-        .story { padding: 6rem 0; background: var(--bg-alt); position: relative; }
-        .story__header { text-align: center; margin-bottom: 4rem; }
-        .story__intro { font-size: 1.1rem; color: var(--text-muted); max-width: 760px; margin: 1.5rem auto 3rem; line-height: 1.8; }
-
-        .timeline { position: relative; max-width: 880px; margin: 0 auto; }
-        .timeline__thread { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%); background: linear-gradient(to bottom, transparent 0%, var(--yellow) 15%, var(--orange) 50%, var(--yellow) 85%, transparent 100%); border-radius: 4px; opacity: 0.5; }
-        
-        .timeline__item { display: grid; grid-template-columns: 1fr 64px 1fr; align-items: center; margin-bottom: 3rem; position: relative; }
-        .timeline__item:last-child { margin-bottom: 0; }
-        
-        .timeline__content { padding: 2rem; border-radius: 8px; background: var(--white); box-shadow: 0 4px 20px rgba(7,1,75,0.04); border: 1px solid rgba(7,1,75,0.05); display: flex; flex-direction: column; justify-content: center; height: 240px; transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s; }
-        .timeline__content:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(7,1,75,0.08); }
-        .timeline__item:nth-child(odd) .timeline__content { grid-column: 1; text-align: right; }
-        .timeline__item:nth-child(even) .timeline__content { grid-column: 3; }
-        
-        .timeline__node { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; }
-        .timeline__dot { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--bg-alt); background: var(--navy); box-shadow: 0 0 0 3px rgba(7,1,75,0.1); }
-        
-        .timeline__year { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.65rem; }
-        .timeline__heading { font-family: var(--font-heading); font-size: 1.4rem; color: var(--navy); margin-bottom: 0.5rem; }
-        .timeline__desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
-
-        @media (min-width: 1100px) {
-            .timeline {
-                display: grid;
-                grid-template-columns: repeat(5, minmax(0, 1fr));
-                gap: 1.2rem;
-                max-width: 1600px;
-            }
-
-            .timeline__thread {
-                left: 8%;
-                right: 8%;
-                top: 8px;
-                bottom: auto;
-                width: auto;
-                height: 2px;
-                transform: none;
-                background: linear-gradient(to right, transparent 0%, var(--yellow) 15%, var(--orange) 50%, var(--yellow) 85%, transparent 100%);
-            }
-
-            .timeline__item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-bottom: 0;
-                grid-template-columns: none;
-                height: 100%;
-            }
-
-            .timeline__item:nth-child(odd) .timeline__content,
-            .timeline__item:nth-child(even) .timeline__content {
-                grid-column: auto;
-                text-align: center;
-            }
-
-            .timeline__node {
-                position: relative;
-                left: auto;
-                top: auto;
-                transform: none;
-                order: -1;
-                margin-bottom: 1.25rem;
-                z-index: 2;
-            }
-
-            .timeline__content {
-                width: 100%;
-                height: 390px;
-                justify-content: flex-start;
-                padding: 1.4rem;
-            }
-        }
-
-        /* ============= CORE VALUES ============= */
-        .values { padding: 6rem 0; background: var(--white); }
-        .values__header { text-align: center; margin-bottom: 4rem; }
-        .values__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
-
-        @media (min-width: 1100px) {
-            .values__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-            .values__grid .val-card { grid-column: span 2; }
-            .values__grid .val-card:nth-child(4) { grid-column: 2 / span 2; }
-            .values__grid .val-card:nth-child(5) { grid-column: 4 / span 2; }
-        }
-
-        .val-card { position: relative; padding: 2.5rem; border-radius: 8px; background: var(--bg-light); text-align: center; overflow: hidden; transition: all 0.5s var(--ease-out-expo); }
-        .val-card::before { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(7,1,75,0.08); border-radius: 4px; pointer-events: none; transition: border-color 0.4s ease; }
-        .val-card:hover { transform: translateY(-4px); background: var(--white); box-shadow: 0 10px 30px rgba(7,1,75,0.05); }
-        .val-card:hover::before { border-color: rgba(246,197,59,0.5); }
-        
-        .val-card__corner { position: absolute; width: 16px; height: 16px; z-index: 1; }
-        .val-card__corner svg { width: 100%; height: 100%; }
-        .val-card__corner--tl { top: 4px; left: 4px; }
-        .val-card__corner--tr { top: 4px; right: 4px; transform: scaleX(-1); }
-        .val-card__corner--bl { bottom: 4px; left: 4px; transform: scaleY(-1); }
-        .val-card__corner--br { bottom: 4px; right: 4px; transform: scale(-1); }
-
-        .val-card__icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; border: 1px solid rgba(255,132,0,0.3); background: rgba(255,132,0,0.05); color: var(--orange); }
-        .val-card__icon svg { width: 24px; height: 24px; }
-        
-        .val-card h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--navy); margin-bottom: 0.75rem; }
-        .val-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
-
-        /* ============= WHAT VAH DOES ============= */
-        .programs { padding: 6rem 0; background: var(--bg-alt); }
-        .programs__header { text-align: center; margin-bottom: 4rem; }
-        
-        .programs__list { display: flex; flex-direction: column; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
-        .prog-row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2rem; padding: 2rem 2.5rem; background: var(--white); border-radius: 8px; border: 1px solid rgba(7,1,75,0.05); transition: all 0.4s var(--ease-out-expo); }
-        .prog-row:hover { background: var(--orange); border-color: var(--orange); box-shadow: 0 10px 30px rgba(255,132,0,0.2); }
-        
-        .prog-row:hover h3 { color: var(--navy); }
-        .prog-row:hover p { color: rgba(7,1,75,0.85); }
-        .prog-row:hover .prog-icon-box { background: rgba(255,255,255,0.2) !important; color: var(--navy) !important; border-color: rgba(255,255,255,0.5); }
-
-        .prog-icon-box { width: 60px; height: 60px; border-radius: 8px; background: rgba(7,1,75,0.03); display: flex; align-items: center; justify-content: center; color: var(--navy); transition: all 0.4s ease; }
-        .prog-icon-box svg { width: 28px; height: 28px; }
-        .prog-content h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--navy); margin-bottom: 0.25rem; transition: color 0.4s ease; }
-        .prog-content p { font-size: 1rem; color: var(--text-muted); transition: color 0.4s ease; }
-
-        /* ============= CHARITABLE WORK ============= */
-        .partner { padding: 6rem 0; background: var(--white); border-top: 1px solid rgba(7,1,75,0.05); }
-        .partner__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 6vw, 5.5rem); align-items: center; }
-        .partner__content { max-width: 500px; }
-        .partner__text { font-size: 1.05rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 2rem; }
-        .partner__text strong { color: var(--navy); font-weight: 600; }
-        .partner__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-        
-        .partner__visual { display: flex; justify-content: center; }
-        .partner__card { width: 100%; max-width: 420px; padding: clamp(2.25rem, 3.5vw, 3rem); border-radius: 8px; background: var(--bg-light); border: 1px solid rgba(7,1,75,0.08); box-shadow: 0 10px 30px rgba(7,1,75,0.05); text-align: center; transition: all 0.5s var(--ease-out-expo); position: relative; }
-        .partner__card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(7,1,75,0.08); border-color: rgba(246,197,59,0.5); }
-        
-        .partner__card-logo { display: flex; align-items: center; justify-content: center; margin-bottom: 1.75rem; }
-        .partner__card-logo img { width: 100%; max-width: 280px; height: auto; }
-
-        /* ============= FOOTER ============= */
-        .footer { padding: 5rem 0 2rem; background: var(--navy); color: var(--white); }
-        .footer__grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 4rem; margin-bottom: 4rem; }
-        
-        .footer__brand h2 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 1rem; color: var(--white); }
-        .footer__brand p { color: rgba(255,255,255,0.7); font-size: 0.95rem; max-width: 300px; line-height: 1.6; }
-        
-        .footer__socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
-        .footer__socials a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; background: rgba(255,255,255,0.1); transition: all 0.3s; }
-        .footer__socials a:hover { background: var(--orange); }
-        .footer__socials svg { width: 18px; height: 18px; fill: none; stroke: var(--white); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-        
-        .footer__title { font-family: var(--font-body); font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--yellow); margin-bottom: 1.5rem; }
-        .footer__links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-        .footer__links a { font-size: 0.95rem; color: rgba(255,255,255,0.7); transition: color 0.3s; }
-        .footer__links a:hover { color: var(--white); }
-        
-        .newsletter-form { display: flex; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 0.5rem; transition: border-color 0.3s; }
-        .newsletter-form:focus-within { border-color: var(--yellow); }
-        .newsletter-form input { background: none; border: none; color: var(--white); font-family: var(--font-body); font-size: 1rem; flex-grow: 1; outline: none; }
-        .newsletter-form button { background: none; border: none; color: var(--yellow); font-family: var(--font-body); font-weight: 700; text-transform: uppercase; cursor: pointer; }
-        
-        .footer__bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-
-        /* ============= DONATE MODAL ============= */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 1, 75, 0.85); backdrop-filter: blur(8px);
-            z-index: 2000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-out-expo);
-        }
-        .modal-overlay.is-active { opacity: 1; pointer-events: all; }
-        
-        .modal-content {
-            background: var(--white); padding: 3.5rem 2.5rem; border-radius: 12px;
-            max-width: 500px; width: 90%; position: relative;
-            transform: translateY(30px) scale(0.95); transition: transform 0.4s var(--ease-out-expo);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2); border: 1px solid rgba(7,1,75,0.05);
-        }
-        .modal-overlay.is-active .modal-content { transform: translateY(0) scale(1); }
-        
-        .modal-close {
-            position: absolute; top: 1.5rem; right: 1.5rem;
-            background: none; border: none; color: var(--text-muted);
-            cursor: pointer; transition: color 0.3s; padding: 0.5rem;
-        }
-        .modal-close:hover { color: var(--orange); }
-        .modal-close svg { width: 24px; height: 24px; }
-        
-        .modal-options { display: flex; flex-direction: column; gap: 1rem; }
-        .modal-btn { width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem; text-align: center; }
-
-        /* ============= RESPONSIVE QUERIES ============= */
-        @media (max-width: 1024px) {
-            .partner__grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-            .partner__content { max-width: 100%; }
-            .partner__actions { justify-content: center; }
-            .footer__grid { grid-template-columns: 1fr; gap: 3rem; }
-        }
-
-        @media (min-width: 696px) and (max-width: 1099px) {
-            .values__grid .val-card:last-child:nth-child(odd) {
-                grid-column: 1 / -1;
-                justify-self: center;
-                width: min(420px, 100%);
-            }
-        }
-
-        @media (max-width: 1099px) {
-            .timeline__thread { left: 24px; }
-            .timeline__item,
-            .timeline__item:nth-child(odd) {
-                grid-template-columns: 48px 1fr;
-                gap: 1rem;
-            }
-            .timeline__content {
-                grid-column: 2 !important;
-                text-align: left !important;
-                height: auto;
-                min-height: 180px;
-                padding: 1.5rem;
-            }
-            .timeline__node {
-                left: 24px;
-                top: 50%;
-                transform: translateY(-50%, -50%);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav__right { 
-                display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-                background: rgba(7,1,75,0.98); flex-direction: column; align-items: center; justify-content: center;
-                gap: 2.5rem; z-index: 999; backdrop-filter: blur(15px);
-                opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-            }
-            .nav.is-open .nav__right { opacity: 1; pointer-events: all; }
-            .nav__right .nav__links { flex-direction: column; gap: 2rem; }
-            .nav__right .nav__link { font-size: 1.5rem; color: var(--white); }
-            .nav__right .nav__link::after { background: var(--orange); }
-            
-            .nav__toggle { display: flex; }
-            
-            .prog-row { grid-template-columns: 1fr; text-align: center; padding: 2rem; }
-            .prog-icon-box { margin: 0 auto; }
-            
-            .footer__bottom { flex-direction: column; gap: 1rem; text-align: center; }
-        }
-    </style>
+  <link rel="stylesheet" href="vah-global.css">
+  <link rel="stylesheet" href="about.css">
 </head>
 <body>
+  <div id="vah-navbar"></div>
+  <div id="vah-modal"></div>
 
-    <nav class="nav" id="nav">
-        <div class="container" style="padding-top: 0; padding-bottom: 0;">
-            <div class="nav__inner">
-                <a href="#" class="nav__logo" aria-label="VAH Home">
-                    <img class="nav__logo-img" src="https://static.wixstatic.com/media/d941ad_2623836a49bc405f991911746c757a8e~mv2.jpeg/v1/fill/w_203,h_218,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/798A7437-B64A-4617-9736-25A57F1ED070.jpeg" alt="VAH Logo">
-                    Virtual Arts for Humanity
-                </a>
-                
-                <div class="nav__right" id="navRight">
-                    <ul class="nav__links">
-                        <li><a href="#" class="nav__link">Home</a></li>
-                        <li><a href="#" class="nav__link nav__link--active">About</a></li>
-                        <li><a href="#" class="nav__link">Festival</a></li>
-                    </ul>
-                    <a href="#donate" class="btn btn--orange">Donate</a>
-                </div>
-
-                <button class="nav__toggle" aria-label="Toggle Menu" id="navToggle">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
+  <main class="about-main">
     <section class="mission-vision">
-        <div class="container container--narrow">
-            
-            <div class="mv-block">
-                <div class="section-label reveal">
-                    <svg class="section-label__icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-                    Our Mission
-                </div>
-                <h2 class="mv__quote elegant-title reveal d1">
-                    Virtual Arts for Humanity provides a platform for young performers around the world while raising funds for humanitarian causes such as hunger relief.
-                </h2>
-                
-                <p class="mv__body reveal d2">
-                    Through performances, workshops, and festivals, the organization connects art with service.
-                </p>
-            </div>
-
-            <div class="mv-block" style="margin-bottom: 0;">
-                <div class="section-label reveal" style="color: var(--yellow);">
-                    <svg class="section-label__icon" viewBox="0 0 24 24" stroke="var(--yellow)" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
-                    Our Vision
-                </div>
-                <h2 class="mv__quote elegant-title reveal d1">
-                    VAH aims to create a global platform where emerging artists can collaborate across cultures.
-                </h2>
-                
-                <p class="mv__body reveal d2">
-                    The organization strives to expand access to the arts through virtual platforms while also growing in-person festivals and community events.
-                </p>
-            </div>
+      <div class="container container--narrow">
+        <div class="mv-block reveal">
+          <h2 class="section-title reveal d1">Our Mission</h2>
+          <p class="section-intro reveal d2">Virtual Arts for Humanity provides a platform for young performers around the world while raising funds for humanitarian causes such as hunger relief. Through performances, workshops, and festivals, the organization connects art with service.</p>
         </div>
+
+        <div class="mv-block reveal d1">
+          <h2 class="section-title reveal d2">Our Vision</h2>
+          <p class="section-intro reveal d3">VAH aims to create a global platform where emerging artists can collaborate across cultures. The organization strives to expand access to the arts through virtual platforms while also growing in-person festivals and community events.</p>
+        </div>
+      </div>
     </section>
 
     <section class="story">
-        <div class="container">
-            <div class="story__header">
-                <div class="section-label reveal">
-                    <svg class="section-label__icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    Origin Story
-                </div>
-                <h2 class="elegant-title reveal d1">How It Started</h2>
-                <p class="story__intro reveal d2">
-                    Virtual Arts for Humanity was founded to create a space where young artists could continue performing and collaborating even during challenging times. What began as a virtual performance initiative quickly grew into a global arts platform supporting both creativity and humanitarian causes.
-                </p>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline__thread"></div>
-
-                <div class="timeline__item reveal">
-                    <div class="timeline__content">
-                        <p class="timeline__year">2020</p>
-                        <h3 class="timeline__heading">Born from the Pandemic</h3>
-                        <p class="timeline__desc">Following a lost summer internship, Founder Varsha Vasu established VAH to unite philanthropy with the arts.</p>
-                    </div>
-                    <div class="timeline__node"><div class="timeline__dot"></div></div>
-                </div>
-
-                <div class="timeline__item reveal d1">
-                    <div class="timeline__content">
-                        <p class="timeline__year">2021</p>
-                        <h3 class="timeline__heading">Scaling the Vision</h3>
-                        <p class="timeline__desc">We hosted our grand first-ever "Festival of Arts," featuring 38 artists performing 16 different styles over 8 days.</p>
-                    </div>
-                    <div class="timeline__node"><div class="timeline__dot" style="background: var(--orange); box-shadow: 0 0 0 3px rgba(7,1,75,0.1);"></div></div>
-                </div>
-
-                <div class="timeline__item reveal d2">
-                    <div class="timeline__content">
-                        <p class="timeline__year">2022</p>
-                        <h3 class="timeline__heading">Moving In-Person</h3>
-                        <p class="timeline__desc">VAH reversed the traditional nonprofit roles by hosting the first-of-its-kind, entirely youth-led Performing Arts Charity Gala.</p>
-                    </div>
-                    <div class="timeline__node"><div class="timeline__dot"></div></div>
-                </div>
-
-                <div class="timeline__item reveal d1">
-                    <div class="timeline__content">
-                        <p class="timeline__year">2023-2024</p>
-                        <h3 class="timeline__heading">Coast-to-Coast Impact</h3>
-                        <p class="timeline__desc">With the success of "VAHni 2023," we solidified our presence across 50+ cities and 3 continents.</p>
-                    </div>
-                    <div class="timeline__node"><div class="timeline__dot" style="background: var(--orange); box-shadow: 0 0 0 3px rgba(7,1,75,0.1);"></div></div>
-                </div>
-
-                <div class="timeline__item reveal d2">
-                    <div class="timeline__content">
-                        <p class="timeline__year">2025 &amp; Beyond</p>
-                        <h3 class="timeline__heading">The Next Chapter</h3>
-                        <p class="timeline__desc">Launching the "VAHsgiving" Musical Food Drive, we fed 400 unhoused individuals in a single event.</p>
-                    </div>
-                    <div class="timeline__node"><div class="timeline__dot"></div></div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="story__header">
+          <h2 class="section-title reveal d1">How It Started</h2>
+          <p class="section-intro reveal d2">
+            Virtual Arts for Humanity was founded to create a space where young artists could continue performing and collaborating even during challenging times. What began as a virtual performance initiative quickly grew into a global arts platform supporting both creativity and humanitarian causes.
+          </p>
         </div>
+
+        <div class="timeline">
+          <div class="timeline__thread"></div>
+
+          <div class="timeline__item reveal">
+            <div class="timeline__content">
+              <p class="timeline__year">2020</p>
+              <h3 class="timeline__heading">Pandemic Roots</h3>
+              <p class="timeline__desc">Following a lost summer internship, Founder Varsha Vasu established VAH to unite philanthropy with the arts.</p>
+            </div>
+            <div class="timeline__node"><div class="timeline__dot"></div></div>
+          </div>
+
+          <div class="timeline__item reveal d1">
+            <div class="timeline__content">
+              <p class="timeline__year">2021</p>
+              <h3 class="timeline__heading">Scaling the Vision</h3>
+              <p class="timeline__desc">We hosted our grand first-ever "Festival of Arts," featuring 38 artists performing 16 different styles over 8 days.</p>
+            </div>
+            <div class="timeline__node"><div class="timeline__dot"></div></div>
+          </div>
+
+          <div class="timeline__item reveal d2">
+            <div class="timeline__content">
+              <p class="timeline__year">2022</p>
+              <h3 class="timeline__heading">Moving In-Person</h3>
+              <p class="timeline__desc">VAH reversed the traditional nonprofit roles by hosting the first-of-its-kind, entirely youth-led Performing Arts Charity Gala.</p>
+            </div>
+            <div class="timeline__node"><div class="timeline__dot"></div></div>
+          </div>
+
+          <div class="timeline__item reveal d1">
+            <div class="timeline__content">
+              <p class="timeline__year">2023-2024</p>
+              <h3 class="timeline__heading">Borderless Impact</h3>
+              <p class="timeline__desc">With the success of "VAHni 2023," we solidified our presence across 50+ cities and 3 continents.</p>
+            </div>
+            <div class="timeline__node"><div class="timeline__dot"></div></div>
+          </div>
+
+          <div class="timeline__item reveal d2">
+            <div class="timeline__content">
+              <p class="timeline__year">2025 &amp; Beyond</p>
+              <h3 class="timeline__heading">The Next Chapter</h3>
+              <p class="timeline__desc">Launching the "VAHsgiving" Musical Food Drive, we fed 400 unhoused individuals in a single event.</p>
+            </div>
+            <div class="timeline__node"><div class="timeline__dot"></div></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="values">
-        <div class="container">
-            <div class="values__header">
-                <div class="section-label reveal" style="color: var(--navy);">
-                    <svg class="section-label__icon" viewBox="0 0 24 24" stroke="var(--navy)" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    Our Principles
-                </div>
-                <h2 class="elegant-title reveal d1">Core Values</h2>
-            </div>
-            
-            <div class="values__grid">
-                <div class="val-card reveal d1">
-                    <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    
-                    <div class="val-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <h3>Youth Leadership</h3>
-                    <p>Young artists leading creative initiatives.</p>
-                </div>
-                
-                <div class="val-card reveal d2">
-                    <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    
-                    <div class="val-card__icon" style="color: var(--navy); border-color: rgba(7,1,75,0.2); background: rgba(7,1,75,0.05);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    </div>
-                    <h3>Cultural Diversity</h3>
-                    <p>Artists from many cultures and art forms.</p>
-                </div>
-
-                <div class="val-card reveal d3">
-                    <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    
-                    <div class="val-card__icon" style="color: var(--yellow); border-color: rgba(246,197,59,0.5); background: rgba(246,197,59,0.1);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </div>
-                    <h3>Service Through Art</h3>
-                    <p>Performances used to support humanitarian causes.</p>
-                </div>
-
-                <div class="val-card reveal d1">
-                    <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    
-                    <div class="val-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    </div>
-                    <h3>Accessibility</h3>
-                    <p>Opportunities for artists anywhere to participate.</p>
-                </div>
-
-                <div class="val-card reveal d2">
-                    <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--yellow)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"/><circle cx="4" cy="4" r="2" fill="var(--yellow)" stroke="none"/></svg></div>
-                    
-                    <div class="val-card__icon" style="color: var(--navy); border-color: rgba(7,1,75,0.2); background: rgba(7,1,75,0.05);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    </div>
-                    <h3>Creativity & Collaboration</h3>
-                    <p>Encouraging cross-disciplinary artistic work.</p>
-                </div>
-            </div>
+      <div class="container">
+        <div class="values__header">
+          <h2 class="section-title reveal d1">Core Values</h2>
         </div>
+
+        <div class="values__grid">
+          <div class="val-card reveal d1">
+            <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <h3>Youth Leadership</h3>
+            <p>Young artists leading creative initiatives.</p>
+          </div>
+
+          <div class="val-card reveal d2">
+            <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__icon val-card__icon--navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+            <h3>Cultural Diversity</h3>
+            <p>Artists from many cultures and art forms.</p>
+          </div>
+
+          <div class="val-card reveal d3">
+            <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__icon val-card__icon--accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+            <h3>Service Through Art</h3>
+            <p>Performances used to support humanitarian causes.</p>
+          </div>
+
+          <div class="val-card reveal d1">
+            <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
+            <h3>Accessibility</h3>
+            <p>Opportunities for artists anywhere to participate.</p>
+          </div>
+
+          <div class="val-card reveal d2">
+            <div class="val-card__corner val-card__corner--tl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--tr"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--bl"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__corner val-card__corner--br"><svg viewBox="0 0 20 20" fill="none" stroke="var(--accent-color)" stroke-width="1.5" opacity="0.6"><path d="M0,20 L0,6 Q0,0 6,0 L20,0"></path><circle cx="4" cy="4" r="2" fill="var(--accent-color)" stroke="none"></circle></svg></div>
+            <div class="val-card__icon val-card__icon--navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
+            <h3>Creativity &amp; Collaboration</h3>
+            <p>Encouraging cross-disciplinary artistic work.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="programs">
-        <div class="container">
-            <div class="programs__header">
-                <div class="section-label reveal">
-                    <svg class="section-label__icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    Our Initiatives
-                </div>
-                <h2 class="elegant-title reveal d1">What VAH Does</h2>
-            </div>
-            
-            <div class="programs__list">
-                <div class="prog-row reveal d1">
-                    <div class="prog-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                    </div>
-                    <div class="prog-content">
-                        <h3>Performance Showcases</h3>
-                        <p>Virtual concerts and artist spotlights giving young talent a global stage to share their passion.</p>
-                    </div>
-                </div>
-                
-                <div class="prog-row reveal d2">
-                    <div class="prog-icon-box" style="color: var(--orange); background: rgba(255,132,0,0.05);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </div>
-                    <div class="prog-content">
-                        <h3>Festival of the Arts</h3>
-                        <p>A multi-day global arts festival celebrating creativity across borders and artistic disciplines.</p>
-                    </div>
-                </div>
-                
-                <div class="prog-row reveal d1">
-                    <div class="prog-icon-box" style="color: var(--yellow); background: rgba(246,197,59,0.1);">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-                    </div>
-                    <div class="prog-content">
-                        <h3>Workshops</h3>
-                        <p>Skill-building sessions encompassing dance, music, and comprehensive arts career development.</p>
-                    </div>
-                </div>
-                
-                <div class="prog-row reveal d2">
-                    <div class="prog-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <div class="prog-content">
-                        <h3>Internships & Committees</h3>
-                        <p>Youth ambassadors and organizers working behind the scenes to make our global initiatives possible.</p>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="programs__header">
+          <h2 class="section-title reveal d1">What VAH Does</h2>
         </div>
+
+        <div class="programs__list">
+          <div class="prog-row reveal d1">
+            <div class="prog-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
+            <div class="prog-content">
+              <h3>Performance Showcases</h3>
+              <p>Virtual concerts and artist spotlights giving young talent a global stage to share their passion.</p>
+            </div>
+          </div>
+
+          <div class="prog-row reveal d2">
+            <div class="prog-icon-box prog-icon-box--accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+            <div class="prog-content">
+              <h3>Festival of the Arts</h3>
+              <p>A multi-day global arts festival celebrating creativity across borders and artistic disciplines.</p>
+            </div>
+          </div>
+
+          <div class="prog-row reveal d1">
+            <div class="prog-icon-box prog-icon-box--light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg></div>
+            <div class="prog-content">
+              <h3>Workshops</h3>
+              <p>Skill-building sessions encompassing dance, music, and comprehensive arts career development.</p>
+            </div>
+          </div>
+
+          <div class="prog-row reveal d2">
+            <div class="prog-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <div class="prog-content">
+              <h3>Internships &amp; Committees</h3>
+              <p>Youth ambassadors and organizers working behind the scenes to make our global initiatives possible.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="partner" id="charity">
-        <div class="container">
-            <div class="partner__grid">
-                <div class="partner__content reveal-left">
-                    <div class="section-label">
-                        <svg class="section-label__icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        Charitable Work
-                    </div>
-                    <h2 class="elegant-title" style="margin-bottom: 1.25rem;">Turning Art into Impact</h2>
-                    <p class="partner__text">
-                        Virtual Arts for Humanity partners with organizations such as <strong>Feeding America</strong> to turn artistic performances into meaningful impact. Donations raised through events contribute directly to humanitarian causes including hunger relief.
-                    </p>
-                    <div class="partner__actions">
-                        <a href="https://www.paypal.com/donate/?hosted_button_id=MYWFBEXK72GL6&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-BwZleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--orange">Donate via PayPal</a>
-                        <a href="https://account.venmo.com/u/donatevah?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-ByBleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--yellow">Donate via Venmo</a>
-                    </div>
-                </div>
-                <div class="partner__visual reveal-right">
-                    <div class="partner__card">
-                        <div class="partner__card-logo">
-                            <img 
-                                src="https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png" 
-                                srcset="https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png 1x, https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png 2x" 
-                                alt="Feeding America Logo"
-                                style="width: 100%; max-width: 280px; height: auto;"
-                            >
-                        </div>
-                        <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic;">
-                            Working together to provide meals to those who need them most through the power of a live show.
-                        </p>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="partner__grid">
+          <div class="partner__content reveal">
+            <div class="section-label">
+              <svg class="section-label__icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              Charitable Work
             </div>
+            <h2 class="section-title partner__title">Turning Art into Impact</h2>
+            <p class="partner__text">
+              Virtual Arts for Humanity partners with organizations such as <strong>Feeding America</strong> to turn artistic performances into meaningful impact. Donations raised through events contribute directly to humanitarian causes including hunger relief.
+            </p>
+            <div class="partner__actions">
+              <a href="https://www.paypal.com/donate/?hosted_button_id=MYWFBEXK72GL6&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-BwZleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Donate via PayPal</a>
+              <a href="https://account.venmo.com/u/donatevah?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-ByBleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Donate via Venmo</a>
+            </div>
+          </div>
+
+          <div class="partner__visual reveal d1">
+            <div class="partner__card">
+              <div class="partner__card-logo">
+                <img src="https://static.wixstatic.com/media/d941ad_9db75f6a650f472b95d962741c1f8d06~mv2.png/v1/fill/w_412,h_239,al_c,lg_1,q_85,enc_avif,quality_auto/download_edited.png" alt="Feeding America Logo">
+              </div>
+              <p class="partner__card-note">Working together to provide meals to those who need them most through the power of a live show.</p>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
+  </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__grid">
-                <div class="footer__brand">
-                    <h2>Virtual Arts for Humanity</h2>
-                    <p>Empowering young artists and creating impact through the performing arts worldwide.</p>
-                    
-                    <div class="footer__socials">
-                        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
-                        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="footer__title">Directory</h4>
-                    <ul class="footer__links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Festival of the Arts</a></li>
-                        <li><a href="#donate">Donate</a></li>
-                    </ul>
-                </div>
+  <div id="vah-footer"></div>
 
-                <div>
-                    <h4 class="footer__title">Stay Connected</h4>
-                    <form class="newsletter-form" onsubmit="event.preventDefault();">
-                        <input type="email" placeholder="Email Address" required>
-                        <button type="submit">Join</button>
-                    </form>
-                    <a href="mailto:virtualartsforhumanity@gmail.com" style="opacity: 0.8; font-size: 0.95rem; color: rgba(255,255,255,0.8);">virtualartsforhumanity@gmail.com</a>
-                </div>
-            </div>
-
-            <div class="footer__bottom">
-                <span>&copy; 2026 Virtual Arts for Humanity. 501(c)(3) Nonprofit Organization.</span>
-                <a href="#" style="text-decoration: underline;">Legal Notice</a>
-            </div>
-        </div>
-    </footer>
-
-    <div class="modal-overlay" id="donateModal">
-        <div class="modal-content">
-            <button class="modal-close" id="closeModal" aria-label="Close">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            
-            <div class="section-label" style="justify-content: center; width: 100%;">
-                <svg class="section-label__icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                Support VAH
-            </div>
-            
-            <h2 class="elegant-title" style="text-align: center; margin-bottom: 1rem; font-size: clamp(1.5rem, 3vw, 2rem);">Make an Impact</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Choose your preferred platform to donate. Every contribution powers a performance and provides meals to families in need.</p>
-            
-            <div class="modal-options">
-                <a href="https://www.paypal.com/donate/?hosted_button_id=MYWFBEXK72GL6&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-BwZleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--orange modal-btn">
-                    Donate via PayPal (Preferred)
-                </a>
-                <a href="https://account.venmo.com/u/donatevah?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZnRzaAQ-ByBleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaeuDXCg0tgKTStiLk4EC_FjSAdSVPVtX1d32D4F8L-CFiz1H60j4zE0N04H3w_aem_kz1zbYtifM0JTUdiMKuvrg" target="_blank" rel="noopener noreferrer" class="btn btn--yellow modal-btn">
-                    Donate via Venmo
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Scroll Reveals
-            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
-            
-            revealElements.forEach(el => revealObserver.observe(el));
-
-            // Mobile Nav Toggle
-            const toggle = document.getElementById('navToggle');
-            const navRight = document.getElementById('navRight');
-            const nav = document.getElementById('nav');
-            let menuOpen = false;
-            
-            if (toggle && navRight) {
-                toggle.addEventListener('click', () => {
-                    menuOpen = !menuOpen;
-                    nav.classList.toggle('is-open', menuOpen);
-                    
-                    if (menuOpen) {
-                        toggle.children[0].style.transform = 'translateY(7px) rotate(45deg)';
-                        toggle.children[1].style.opacity = '0';
-                        toggle.children[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-                    } else {
-                        toggle.children[0].style.transform = ''; 
-                        toggle.children[1].style.opacity = ''; 
-                        toggle.children[2].style.transform = '';
-                    }
-                });
-            }
-
-            // Donate Modal Logic
-            const donateBtns = document.querySelectorAll('a[href="#donate"]');
-            const modal = document.getElementById('donateModal');
-            const closeModal = document.getElementById('closeModal');
-
-            if (modal) {
-                donateBtns.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault(); 
-                        modal.classList.add('is-active');
-                    });
-                });
-
-                closeModal.addEventListener('click', () => {
-                    modal.classList.remove('is-active');
-                });
-
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('is-active');
-                    }
-                });
-                
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
-                        modal.classList.remove('is-active');
-                    }
-                });
-            }
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const revealElements = document.querySelectorAll(".reveal");
+      const revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
         });
-    </script>
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+      revealElements.forEach(function (el) {
+        revealObserver.observe(el);
+      });
+    });
+  </script>
 </body>
 </html>
